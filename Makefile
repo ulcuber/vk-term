@@ -1,5 +1,5 @@
 CC=g++
-FLAGS=-O3 -std=gnu++1z
+FLAGS=-O3 -std=gnu++17
 LINKS=-lcurl
 EXECUTABLE=bin/run
 

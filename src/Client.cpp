@@ -1,3 +1,5 @@
+#include <iomanip>
+#include <iostream>
 #include <string>
 #include <curl/curl.h>
 
@@ -19,7 +21,7 @@ static size_t writeCallback(void *contents, size_t size, size_t nmemb, void *use
 Client::Client(const string t)
 {
     token = t;
-    version = new string("5.103");
+    version = new string("5.80");
     base_url = new string("https://api.vk.com/method/");
     curl_global_init(CURL_GLOBAL_DEFAULT);
 }
@@ -90,6 +92,7 @@ json Client::request(const string method, json params)
         res = curl_easy_perform(curl);
         if (res != CURLE_OK)
         {
+            cerr << curl_easy_strerror(res) << endl;
             throw new runtime_error(curl_easy_strerror(res));
         }
 
@@ -97,8 +100,9 @@ json Client::request(const string method, json params)
 
         json j = json::parse(readBuffer);
 
-        if (string vkError = j["error"].dump(); vkError != "null")
+        if (json vkError = j["error"]; !vkError.is_null())
         {
+            cerr << setw(4) << vkError << endl;
             throw new runtime_error("VK error");
         }
 

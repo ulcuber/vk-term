@@ -20,6 +20,26 @@ void App::counters()
 {
     json counters = client->account_getCounters();
 
+    cout << "<txt>";
+    if (counters.size() > 0)
+    {
+        cout << "<b>";
+    }
+    if (json value = counters["messages"]; value.is_number_integer())
+    {
+        cout << value.dump();
+    }
+    else
+    {
+        cout << 0;
+    }
+    if (counters.size() > 0)
+    {
+        cout << "</b>";
+    }
+    cout << "</txt>";
+
+    cout << "<tool>";
     if (json value = counters["friends"]; value.is_number_integer())
     {
         cout << "Friends: " << value.dump() << endl;
@@ -79,6 +99,7 @@ void App::counters()
     {
         cout << "Friends recommendations: " << value.dump() << endl;
     }
+    cout << "</tool>";
 }
 
 void App::messages()
